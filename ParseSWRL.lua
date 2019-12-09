@@ -116,9 +116,7 @@ local function getGrammar()
 			URIreference^-1 * skip * annotations^-1 *
 				((skip * rule)^1 * skip * -1)
 				+ skip * rule * skip * -1);
-		rule = taggedCap(tag["rule"],
-			implication
-			+ atom);
+		rule = implication + atom;
 
 		-- Composição básica de uma regra
 		URIreference = taggedCap(tag["URIreference"], litString);

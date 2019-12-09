@@ -17,14 +17,13 @@ ConstantsForParsing = {}
 -- Tags para a AST.
 local tag = {}
 tag["root"] 		= "Root"
-tag["rule"] 		= "Rule"
 tag["URIreference"]	= "URIreference"
 tag["annotations"]	= "Annotations"
 tag["annotation"]	= "Annotation"
 tag["implication"]	= "Implication"
 tag["antecedent"]	= "Antecedent"
 tag["consequent"]	= "Consequent"
-tag["atoms"]			= "Atoms"
+tag["atoms"]		= "Atoms"
 tag["atom"]			= "Atom"
 tag["sameAs"]		= "Same As"
 tag["differentFrom"]= "Different From"
