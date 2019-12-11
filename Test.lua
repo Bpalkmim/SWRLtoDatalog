@@ -11,7 +11,7 @@ require "ParseSWRL"
 require "GenerateDatalog"
 
 local numTestFiles = 14
-local ast = {}
+--local ast = {}
 
 --for i = 1, numTestFiles do
 --	ast[i] = ParseSWRL.parseInput("Test/test_"..i..".swrl")

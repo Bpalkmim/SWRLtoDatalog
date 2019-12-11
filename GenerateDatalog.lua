@@ -17,6 +17,8 @@ GenerateDatalog = {}
 -- Tags para a AST.
 local tag = ConstantsForParsing.getTag()
 
+-- TODO lidar com retrações.
+
 -------------------------------------------------------------------------------------------
 -- Funções locais auxiliares ao módulo
 -------------------------------------------------------------------------------------------
@@ -36,12 +38,12 @@ local function scanAST(ast)
 		if ast["tag"] == tag["root"] then
 			for _, v in ipairs(ast) do
 				retAux = scanAST(v)
-				ret = ret..retAux..".\n"
+				ret = ret..retAux
 			end
 
 		-- TODO lidar depois com esses caras
 		elseif ast["tag"] == tag["URIreference"] then
-			ret = ret.."\""..ast[1].."\""
+			ret = ret.."\""..ast[1].."\"\n"
 
 		elseif ast["tag"] == tag["annotations"] then
 			for _, v in ipairs(ast) do
@@ -52,29 +54,24 @@ local function scanAST(ast)
 			ret = ret..ast[1]
 
 		elseif ast["tag"] == tag["implication"] then
-			-- TODO ver depois como lidar com consequente disjunto
 			-- Consequente :- Antecedente(s).
-			ret = ret..scanAST(ast[2]).." :- "..scanAST(ast[1])
+			-- Com consequente múltiplo, são realizadas múltiplas regras.
+			for _, v in ipairs(ast[2][1]) do
+				ret = ret..scanAST(v).." :- "..scanAST(ast[1])..".\n\n"
+			end
 
 		elseif ast["tag"] == tag["antecedent"] then
-			-- Transformar em separado por vírgulas
-			for i, v in ipairs(ast) do
-				if i == 1 then
-					ret = ret..scanAST(v)
-				else
-					ret = ret..", "..scanAST(v)
-				end
-			end
+			ret = ret..scanAST(ast[1])
 
+		--[[ Caso do consequente está incluso na implicação.
 		elseif ast["tag"] == tag["consequent"] then
-			-- TODO ver como lidar com consequente disjunto
 			for i, v in ipairs(ast) do
 				if i == 1 then
 					ret = ret..scanAST(v)
 				else
 					ret = ret..", "..scanAST(v)
 				end
-			end
+			end]]
 
 		elseif ast["tag"] == tag["atoms"] then
 			for i, v in ipairs(ast) do
